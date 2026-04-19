@@ -1,4 +1,4 @@
-# embedded-mcp-bridge
+# Platform IO + ESP32 MCP 
 
 A bridge that lets Claude interact with physical hardware. You can ask claude 
 to compile firmware, flash it to your ESP32 and then read sensors or toggle outputs. All of this happens without leaving the conversation with CC!
