@@ -1,3 +1,4 @@
+import json
 import time
 
 import serial
@@ -36,6 +37,18 @@ def register_pio_tools(mcp: FastMCP) -> None:
             stderr=result["stderr"],
         )
         return response.model_dump()
+    
+    @mcp.tool()
+    def pio_list_devices() -> dict:
+        """List connected serial devices."""
+        result = run_pio(["device", "list", "--json-output"])
+        if result["returncode"] != 0:
+            return {"success": False, "devices": [], "error": result["stderr"]}
+        try:
+            devices = json.loads(result["stdout"])
+        except json.JSONDecodeError:
+            devices = []
+        return {"success": True, "devices": devices}
 
     @mcp.tool()
     def pio_monitor_serial(
